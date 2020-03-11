@@ -19,9 +19,7 @@ public:
 
 void WALL::print_wall()
 {
-	//set blue wall
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_BLUE);
-
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_GREEN | FOREGROUND_BLUE);//青色
 	//上边界
 	gotoxy(0, 0);
 	for (int i = 0; i < width; i += 2)
@@ -45,8 +43,7 @@ void WALL::print_wall()
 	gotoxy(0, height);
 
 	//set back to white
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY |
-		FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY |FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 }
 
 int WALL::getwidth() const

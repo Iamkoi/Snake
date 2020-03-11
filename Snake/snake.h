@@ -80,6 +80,7 @@ void SNAKE::move()//4 directions
 		break;
 	}
 	body.insert(body.begin(), node[0]);//插入蛇头（蛇头向前）
+
 	print_node(body[0].x, body[0].y);
 
 	if (delete_tail == 1)//删除蛇尾

@@ -24,15 +24,52 @@ public:
 	bool check_food();//if meet the food
 	bool check_rfood();//if meet the rfood
 
+	void first_page();//choose the module
+	void choose_module();
+
 	int press();//press the key
 	void play();//endless loop
+	void printgameover(int x, int y);//GAME OVER!
 	void gameover();//the snake dead
 };
+
+void GAME::first_page()//choose the module
+{
+	cout << "\t \t\t" << "Snake\t\t" << "\t\t" << endl;
+	cout << "\t\t\t\t¡ª¡ªwelcome\t\t" << endl;
+	cout << "\t=========================================" << endl;
+	cout << "\t&\t\t" << "1.simple\t\t" << "&\t" << endl;
+	cout << "\t&\t\t" << "2.midulm\t\t" << "&\t" << endl;
+	cout << "\t&\t\t" << "3.difficult\t\t" << "&\t" << endl;
+	cout << "\t=========================================" << endl;
+	cout << "\t1. Press the key to choose the module." << endl;
+	cout<<"\t2. Press 'Enter' to start the game." << endl;
+}
+
+void GAME::choose_module()
+{
+	system("CLS");
+	gotoxy(0, 0);
+	first_page();
+
+	int module_num;
+	cin >> module_num;
+	switch (module_num)
+	{
+	case 1:snake.speed = 200; break;
+	case 2:snake.speed = 100; break;
+	case 3:snake.speed = 50; break;
+	default:cout << "Input Error,please input it correctly."; system("pause"); choose_module(); break;
+	}
+}
 
 GAME::GAME()
 {
 	food.set_loc();
 	rfood.set_loc();
+
+	choose_module();
+	system("CLS");
 
 	wall.print_wall();
 	food.print_food();
@@ -60,7 +97,7 @@ bool GAME::check_wall()//if meet the wall
 {
 	bool ret = 0;
 	WALL wall;
-	if (snake.head().x == 0 || snake.head().x == wall.getwidth() - 1 ||snake.head().y == 0 || snake.head().y == wall.getheight() - 1)
+	if (snake.head().x <= 1 || snake.head().x >= wall.getwidth() - 2 ||snake.head().y <= 1 || snake.head().y >= wall.getheight() - 2)
 		ret = 1;
 	return ret;
 }
@@ -120,10 +157,19 @@ int GAME::press()
 void GAME::play()//endless loop
 {
 	handle();
-	int eat = 0;
+	int eat = -1;
 
 	while (true)
 	{
+		if (rfood.ifexist == true)
+			rfood.step++;
+		if (rfood.step >= 30)
+		{
+			rfood.delete_food();
+			rfood.step = 0;
+			rfood.ifexist = false;
+		}
+
 		snake.delete_tail = 1;
 		if (eat == 4)//create random food
 		{
@@ -137,7 +183,7 @@ void GAME::play()//endless loop
 			//print
 			rfood.print_food();	
 
-			eat = 0;
+			eat = -1;
 		}
 
 		if (check_wall())//meet the wall;
@@ -161,21 +207,49 @@ void GAME::play()//endless loop
 			rfood.ifexist = 0;//not exist
 			//rfood.delete_food();
 
-			eat = (eat + 1) % 5;
+			//eat = (eat + 1) % 5;
 			snake.delete_tail = 0;
 			score += rfood.mark;
 		}
 
 		snake.direction = press();
 		snake.move();
-		Sleep(snake.speed);
+
+		if (snake.direction % 2 == 1)
+			Sleep(snake.speed);
+		else
+			Sleep(2*snake.speed);
 
 	}
 }
 
+void GAME::printgameover (int x,int y)
+{
+	gotoxy(x, y);
+	cout <<" #####     #    #     # #######    ####### #     # ####### ######     ###";
+	gotoxy(x, y + 1);
+	cout << "#     #   # #   ##   ## #          #     # #     # #       #     #    ###";
+	gotoxy(x, y + 2);
+	cout << "#        #   #  # # # # #          #     # #     # #       #     #    ###";
+	gotoxy(x, y + 3);
+	cout << "#  #### #     # #  #  # #####      #     # #     # #####   ######      # ";
+	gotoxy(x, y + 4);
+	cout << "#     # ####### #     # #          #     #  #   #  #       #   #        ";
+	gotoxy(x, y + 5);
+	cout << "#     # #     # #     # #          #     #   # #   #       #    #     ###";
+	gotoxy(x, y + 6);
+	cout << " #####  #     # #     # #######    #######    #    ####### #     #    ###";
+}
+
 void GAME::gameover()
 {
-	gotoxy(15, 20);
-	cout << "game over";
+	int x = 3, y = 8;
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);//yellow
+
+	printgameover(x, y);
+	gotoxy(wall.getwidth() / 2 - 7, y + 9);
+	cout << "SCORE: " << score;
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY |FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);//white
+
 	gotoxy(0, wall.getheight());
 }
