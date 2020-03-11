@@ -1,5 +1,7 @@
 ﻿  main.cpp
 c:\users\lenovo\source\repos\snake\snake\food.h(45): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
-c:\users\lenovo\source\repos\snake\snake\food.h(68): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
+c:\users\lenovo\source\repos\snake\snake\food.h(73): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
 c:\users\lenovo\source\repos\snake\snake\snake.h(56): warning C4018: “<”: 有符号/无符号不匹配
+c:\users\lenovo\source\repos\snake\snake\game.h(394): warning C4018: “<”: 有符号/无符号不匹配
+c:\users\lenovo\source\repos\snake\snake\game.h(427): warning C4018: “<”: 有符号/无符号不匹配
   Snake.vcxproj -> C:\Users\lenovo\source\repos\Snake\Debug\Snake.exe

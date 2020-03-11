@@ -44,6 +44,11 @@ void FOOD::set_loc()
 	WALL wall;
 	srand(time(NULL));
 	food_x = rand() % (wall.getwidth() - 2) + 1;
+	if (food_x == wall.getwidth() - 2)
+		food_x--;
+	if (food_x == 1)
+		food_x++;
+
 	food_y = rand() % (wall.getheight() - 2) + 1;
 }
 void FOOD::print_food()
@@ -67,6 +72,12 @@ void RANDOM_FOOD::set_loc()
 	WALL wall;
 	srand(time(NULL));
 	rfood_x = rand() % (wall.getwidth() - 2) + 1;
+
+	if (rfood_x == wall.getwidth() - 2)
+		rfood_x--;
+	if (rfood_x == 1)
+		rfood_x++;
+
 	rfood_y = rand() % (wall.getheight() - 2) + 1;
 }
 void RANDOM_FOOD::print_food()

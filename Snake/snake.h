@@ -20,7 +20,7 @@ public:
 	bool delete_tail = 1;//if clean the tail when moving
 	void print_node(int x, int y);//print node
 	void delete_node(int x, int y);//print node
-	SNAKE();//initial snake
+	void initial_snake();//initial snake
 	void move();//4 directions
 	Node head();
 };
@@ -37,7 +37,7 @@ void SNAKE::delete_node(int x, int y)//print node
 	cout << " ";
 }
 
-SNAKE::SNAKE()//initial snake
+void SNAKE::initial_snake()//initial snake
 {
 	SNAKE::Node node1, node2, node3;
 	WALL wall;
