@@ -307,6 +307,7 @@ void GAME::play()//endless loop
 			//eat = (eat + 1) % 5;
 			snake.delete_tail = 0;
 			score += rfood.mark;
+			rfood.step = 0;
 		}
 
 		//根据是否加速以及按键决定移动速度和方向
