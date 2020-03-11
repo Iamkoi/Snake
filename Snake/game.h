@@ -8,6 +8,8 @@
 #include<fstream>
 #include <conio.h>//控制台输入输出头文件
 
+#pragma comment(lib, "Winmm.lib")//play_sound
+
 #define textname1 "simple.txt"
 #define textname2 "medium.txt"
 #define textname3 "difficult.txt"
@@ -204,8 +206,6 @@ void GAME::printstatus()//print your status
 	cout << "1. 1 * = 1 score";
 	gotoxy(wall.getwidth() + 2, 16);
 	cout << "2. 1 $ = 5 scores";
-	gotoxy(wall.getwidth() + 2, 18);
-	cout << "3. You can press long to accelerate.";
 	gotoxy(wall.getwidth() + 2, 20);
 	cout << "4. '$' will disappear after 50 steps.";
 
@@ -217,7 +217,10 @@ void GAME::printstatus()//print your status
 	gotoxy(wall.getwidth() + 7, 24);
 	cout << "↓";
 
-
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY |FOREGROUND_RED);//red
+	gotoxy(wall.getwidth() + 2, 18);
+	cout << "3. You can press long to accelerate.";
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);//yellow
 
 }
 
@@ -284,6 +287,8 @@ void GAME::play()//endless loop
 
 		else if (check_food())//meet the food
 		{
+			PlaySound(TEXT("eat_food.wav"), NULL, SND_FILENAME | SND_ASYNC);
+
 			eat = (eat + 1) % 5;
 			snake.delete_tail = 0;
 			score += food.mark;
@@ -295,6 +300,7 @@ void GAME::play()//endless loop
 
 		else if(check_rfood())//meet the rfood
 		{
+			PlaySound(TEXT("eat_food.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			rfood.ifexist = 0;//not exist
 			update_score = true;
 
@@ -435,6 +441,7 @@ void GAME::printhistory()
 
 void GAME::gameover()
 {
+	PlaySound(TEXT("gameover.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	int x = 3, y = 8;
 	
 	printgameover(x, y);
@@ -442,5 +449,7 @@ void GAME::gameover()
 	cout << "SCORE: " << score;
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY |FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);//white
 
+	gotoxy(0, wall.getheight() + 1);
+	system("pause");
 	printhistory();
 }
